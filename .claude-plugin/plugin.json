@@ -1,0 +1,21 @@
+{
+  "name": "doppel",
+  "displayName": "Doppel",
+  "version": "0.1.0",
+  "description": "Connect Claude to Doppel. Search and triage brand-protection alerts, submit takedowns, manage protected assets, and look up Doppel product documentation, all scoped to your organization.",
+  "author": {
+    "name": "Doppel",
+    "url": "https://www.doppel.com"
+  },
+  "homepage": "https://vision.doppel.com/settings/developers",
+  "repository": "https://github.com/doppelxyz/doppel-mcp-plugin",
+  "license": "Apache-2.0",
+  "keywords": [
+    "doppel",
+    "brand-protection",
+    "digital-risk-protection",
+    "phishing",
+    "takedown",
+    "security"
+  ]
+}
