@@ -1,5 +1,7 @@
 # Doppel plugin for AI agents
 
+![Doppel](assets/logo.png)
+
 Connect Cursor, Claude, and other MCP-capable agents to [Doppel](https://www.doppel.com), the digital risk protection platform. Once connected, you can ask your agent to search and triage brand-protection alerts, request takedowns, manage protected assets, and look up Doppel product documentation, all scoped to the organization you sign in to.
 
 This repository holds the plugin manifest, the MCP server reference, and a set of skills that teach the agent how to use Doppel's tools well. The Doppel MCP server itself is hosted by Doppel at `https://mcp.doppel.com/mcp`; this repository does not contain its source.
@@ -50,6 +52,7 @@ Write operations (creating alerts, submitting takedowns, creating or archiving a
 | `plugin.json`, `mcp.json` | Cursor and other [Agent Plugins](https://agent-plugins.org) clients |
 | `.claude-plugin/plugin.json`, `.mcp.json` | Claude (claude.ai, Cowork, Claude Code) |
 | `skills/` | All of the above |
+| `assets/logo.png` | Directory listings |
 
 ## Support
 
