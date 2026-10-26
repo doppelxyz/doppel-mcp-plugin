@@ -32,7 +32,7 @@ You need a Doppel account. Each person who installs the plugin signs in with the
 
 ## Data handling
 
-The plugin sends your prompts' Doppel-related requests (alert searches, alert and asset identifiers, takedown justifications, documentation questions) to `mcp.doppel.com` over HTTPS, authenticated with the OAuth token your client obtains when you sign in. Results come back from your own organization's Doppel data. The plugin stores nothing itself, sends data to no other destination, and includes no API keys or secrets. Doppel's handling of your data is governed by your Doppel agreement and the [Doppel privacy policy](https://www.doppel.com/privacy).
+The plugin sends your prompts' Doppel-related requests (alert searches, alert and asset identifiers, takedown justifications, documentation questions) to `mcp.doppel.com` over HTTPS, authenticated with the OAuth token your client obtains when you sign in. Results come back from your own organization's Doppel data. The plugin stores nothing itself, sends data to no other destination, and includes no API keys or secrets. Doppel's handling of your data is governed by your Doppel agreement and the [Doppel privacy policy](https://www.doppel.com/legal/privacy-policy).
 
 Write operations (creating alerts, submitting takedowns, creating or archiving assets) require the user's explicit confirmation in conversation before the agent calls the tool. Every result is treated as data, not as instructions.
 
