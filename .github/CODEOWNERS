@@ -1,0 +1,11 @@
+# Every change requires review from a code owner (enforced by the main branch ruleset).
+# Core FDE owns the plugin; Core owns the Doppel MCP server it points at.
+*                       @doppelxyz/core-fde @doppelxyz/core
+
+# The MCP endpoint and manifests are security-relevant.
+/mcp.json               @doppelxyz/core-fde @doppelxyz/core
+/.mcp.json              @doppelxyz/core-fde @doppelxyz/core
+/plugin.json            @doppelxyz/core-fde @doppelxyz/core
+/.claude-plugin/        @doppelxyz/core-fde @doppelxyz/core
+/SECURITY.md            @doppelxyz/core-fde @doppelxyz/corporate-security
+/.github/               @doppelxyz/core-fde @doppelxyz/corporate-security

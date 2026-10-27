@@ -6,6 +6,12 @@ Connect Cursor, Claude, and other MCP-capable agents to [Doppel](https://www.dop
 
 This repository holds the plugin manifest, the MCP server reference, and a set of skills that teach the agent how to use Doppel's tools well. The Doppel MCP server itself is hosted by Doppel at `https://mcp.doppel.com/mcp`; this repository does not contain its source.
 
+> **Security Note:** Depending on the request, the MCP server returns alert, brand, and protected-asset data from your Doppel tenant to the MCP client and the model behind it. Only connect it to MCP clients and model providers your organization trusts, and keep client-side approval enabled for the write tools (`create_drp_alert`, `submit_drp_alert_for_takedown`, `create_drp_asset`, `delete_drp_asset`), which perform real actions in your tenant.
+
+> **Legal Note:** Your use of a third-party MCP client or LLM is governed solely by that provider's terms. Doppel is not responsible for the performance of third-party clients or models, disclaims any warranties and liability for them, and may be unable to resolve issues caused by them. Use of the Doppel service remains subject to your Doppel agreement and the [Doppel privacy policy](https://www.doppel.com/legal/privacy-policy).
+
+> **Caution:** Outputs and recommendations are generated dynamically and vary with the query, the model, and the connected MCP client. Review them against your organization's security and compliance requirements before acting on them, especially before approving a takedown.
+
 ## What you can do
 
 - **Alerts** — search by entity, brand, platform, module, status, or time range; count queues; pull full detail and takedown history for one alert; review trends across a sample.
@@ -53,6 +59,10 @@ Write operations (creating alerts, submitting takedowns, creating or archiving a
 | `.claude-plugin/plugin.json`, `.mcp.json` | Claude (claude.ai, Cowork, Claude Code) |
 | `skills/` | All of the above |
 | `assets/logo.png` | Directory listings |
+
+## Security
+
+To report a vulnerability in this plugin or in the Doppel MCP server, follow [SECURITY.md](SECURITY.md). Please do not open a public issue for security reports.
 
 ## Support
 
