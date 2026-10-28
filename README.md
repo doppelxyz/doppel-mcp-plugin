@@ -36,6 +36,10 @@ You need a Doppel account. Each person who installs the plugin signs in with the
 
 **Other MCP clients** — add a remote MCP server at `https://mcp.doppel.com/mcp` using OAuth. Client-specific instructions are in Doppel Vision under [Settings → Developers](https://vision.doppel.com/settings/developers).
 
+### Versions
+
+Each release is a signed git tag (`v0.1.0`, `v0.1.1`, …) with a matching [GitHub Release](https://github.com/doppelxyz/doppel-mcp-plugin/releases); the `version` field in `plugin.json` and `.claude-plugin/plugin.json` always equals the latest tag. Clients that accept a git ref (for example a Claude Code marketplace entry) can pin to a tag. A tag pins this repository's manifests, skills, and documentation only; the tools themselves are served by `mcp.doppel.com` and evolve with the Doppel platform, independent of the plugin version.
+
 ## Data handling
 
 The plugin sends your prompts' Doppel-related requests (alert searches, alert and asset identifiers, takedown justifications, documentation questions) to `mcp.doppel.com` over HTTPS, authenticated with the OAuth token your client obtains when you sign in. Results come back from your own organization's Doppel data. The plugin stores nothing itself, sends data to no other destination, and includes no API keys or secrets. Doppel's handling of your data is governed by your Doppel agreement and the [Doppel privacy policy](https://www.doppel.com/legal/privacy-policy).
