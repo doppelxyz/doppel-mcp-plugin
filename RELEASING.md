@@ -13,6 +13,8 @@ and GitHub Actions is disabled, so a release is a signed tag plus a GitHub Relea
   version.
 - The `version` field in `plugin.json` and `.claude-plugin/plugin.json` must equal the
   tag being cut.
+- Every pull request carries the release checklist from
+  `.github/PULL_REQUEST_TEMPLATE.md`; whoever merges cuts the tag.
 
 ## Cutting a version
 
