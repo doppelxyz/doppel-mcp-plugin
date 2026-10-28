@@ -7,5 +7,5 @@
 /.mcp.json              @doppelxyz/core-fde @doppelxyz/core
 /plugin.json            @doppelxyz/core-fde @doppelxyz/core
 /.claude-plugin/        @doppelxyz/core-fde @doppelxyz/core
-/SECURITY.md            @doppelxyz/core-fde @doppelxyz/corporate-security
-/.github/               @doppelxyz/core-fde @doppelxyz/corporate-security
+/SECURITY.md            @doppelxyz/core-fde @doppelxyz/security
+/.github/               @doppelxyz/core-fde @doppelxyz/security
