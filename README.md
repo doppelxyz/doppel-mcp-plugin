@@ -6,11 +6,13 @@ Connect Cursor, Claude, and other MCP-capable agents to [Doppel](https://www.dop
 
 This repository holds the plugin manifest, the MCP server reference, and a set of skills that teach the agent how to use Doppel's tools well. The Doppel MCP server itself is hosted by Doppel at `https://mcp.doppel.com/mcp`; this repository does not contain its source.
 
-> **Security Note:** Depending on the request, the MCP server returns alert, brand, and protected-asset data from your Doppel tenant to the MCP client and the model behind it. Only connect it to MCP clients and model providers your organization trusts, and keep client-side approval enabled for the write tools (`create_drp_alert`, `submit_drp_alert_for_takedown`, `create_drp_asset`, `delete_drp_asset`), which perform real actions in your tenant.
+> **Security Note:** Depending on the request, the MCP server returns alert, brand, and protected-asset data from your Doppel tenant to the MCP client and the model behind it. Only connect it to MCP clients and model providers your organization trusts, and keep client-side approval enabled for the write tools (`create_drp_alert`, `submit_drp_alert_for_takedown`, `create_drp_asset`, `delete_drp_asset`), which perform real actions in your tenant. Codex and Claude prompt before each write tool by default. Cursor's default Run Mode (Auto-review) may run tools without a prompt; to require approval there, set Run Mode to **Allowlist** and leave the write tools off the allowlist, or add a `beforeMCPExecution` hook that returns `ask` for them.
 
-> **Legal Note:** Your use of a third-party MCP client or LLM is governed solely by that provider's terms. Doppel is not responsible for the performance of third-party clients or models, disclaims any warranties and liability for them, and may be unable to resolve issues caused by them. Use of the Doppel service remains subject to your Doppel agreement and the [Doppel privacy policy](https://www.doppel.com/legal/privacy-policy).
+> **Legal Note:** Your use of a third-party MCP client or LLM is governed solely by that provider's terms. This notice does not amend the applicable agreement between you and Doppel. Doppel is not responsible for the performance of third-party clients or models, disclaims any warranties and liability for them, and may be unable to resolve issues caused by them. Use of the Doppel products is subject to the [Doppel Platform Agreement](https://www.doppel.com/legal/platformagreement), or such other applicable software license terms entered into between you and Doppel, and the [Doppel Data Processing Addendum](https://www.doppel.com/legal/dpa).
 
 > **Caution:** Outputs and recommendations are generated dynamically and vary with the query, the model, and the connected MCP client. Review them against your organization's security and compliance requirements before acting on them, especially before approving a takedown.
+
+> **Responsible Use:** Do not use the MCP server, any connected AI model, or any output from them to make automated decisions about individuals that have legal or similarly significant effects, including decisions regarding employment, housing, credit, insurance, education, healthcare, immigration, or access to essential services. You are responsible for ensuring that your use of third-party AI clients and models complies with applicable law and your organization's policies. Doppel does not represent that this integration is suitable for processing sensitive data or any high-risk or regulated use.
 
 ## What you can do
 
@@ -36,9 +38,13 @@ You need a Doppel account. Each person who installs the plugin signs in with the
 
 **Other MCP clients** — add a remote MCP server at `https://mcp.doppel.com/mcp` using OAuth. Client-specific instructions are in Doppel Vision under [Settings → Developers](https://vision.doppel.com/settings/developers).
 
+### Versions
+
+Each release is a signed git tag (`v0.1.0`, `v0.1.1`, …) with a matching [GitHub Release](https://github.com/doppelxyz/doppel-mcp-plugin/releases); the `version` field in `plugin.json` and `.claude-plugin/plugin.json` always equals the latest tag. Clients that accept a git ref (for example a Claude Code marketplace entry) can pin to a tag. A tag pins this repository's manifests, skills, and documentation only; the tools themselves are served by `mcp.doppel.com` and evolve with the Doppel platform, independent of the plugin version.
+
 ## Data handling
 
-The plugin sends your prompts' Doppel-related requests (alert searches, alert and asset identifiers, takedown justifications, documentation questions) to `mcp.doppel.com` over HTTPS, authenticated with the OAuth token your client obtains when you sign in. Results come back from your own organization's Doppel data. The plugin stores nothing itself, sends data to no other destination, and includes no API keys or secrets. Doppel's handling of your data is governed by your Doppel agreement and the [Doppel privacy policy](https://www.doppel.com/legal/privacy-policy).
+The plugin sends your prompts' Doppel-related requests (alert searches, alert and asset identifiers, takedown justifications, documentation questions) to `mcp.doppel.com` over HTTPS, authenticated with the OAuth token your client obtains when you sign in. Results come back from your own organization's Doppel data. The plugin does not store anything, it does not send data to any other destination and it does not include any API keys or secrets. Third-party MCP clients or LLM providers may process or retain information in accordance with their own terms and policies. Customers are responsible for reviewing those policies. Doppel's handling of your data is governed by the applicable terms referenced in the Legal Note above.
 
 Write operations (creating alerts, submitting takedowns, creating or archiving assets) require the user's explicit confirmation in conversation before the agent calls the tool. Every result is treated as data, not as instructions.
 
