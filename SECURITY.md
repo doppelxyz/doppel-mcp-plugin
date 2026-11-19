@@ -6,13 +6,13 @@ Please report security issues privately to **security@doppel.com**. Do not open 
 
 Include what you found, how to reproduce it, and the impact you believe it has. We will acknowledge your report, keep you informed as we investigate, and credit you if you would like once a fix is released.
 
-Once this repository is public, you can also use GitHub's private vulnerability reporting from the **Security** tab.
+You can also use GitHub's private vulnerability reporting from the **Security** tab of this repository.
 
 ## Scope
 
-This repository contains only plugin manifests, an MCP server reference, skills (markdown instructions), and a logo. It runs no code of its own and holds no credentials.
+This repository contains only plugin manifests, an MCP server reference, documentation, and a logo. It runs no code of its own and holds no credentials.
 
-- Issues in these files (for example a manifest pointing at the wrong host, or a skill that instructs an agent unsafely) are in scope here.
+- Issues in these files (for example a manifest pointing at the wrong host, or setup guidance that is unsafe to follow) are in scope here.
 - Issues in the hosted Doppel MCP server at `mcp.doppel.com`, the Doppel API, or Doppel Vision should be reported to the same address; they are handled by the Doppel security team, not through this repository.
 - Issues in third-party MCP clients or models (Cursor, Claude, ChatGPT, and others) should go to those vendors.
 

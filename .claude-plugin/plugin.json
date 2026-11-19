@@ -1,13 +1,14 @@
 {
   "name": "doppel",
   "displayName": "Doppel",
-  "version": "0.1.1",
-  "description": "Connect Claude to Doppel. Search and triage brand-protection alerts, submit takedowns, manage protected assets, and look up Doppel product documentation, all scoped to your organization.",
+  "version": "0.2.0",
+  "description": "Connect Claude to Doppel. Search and triage brand-protection alerts with their evidence and related alerts, move alerts between queues, add comments, submit takedowns, manage tags and protected assets, and look up Doppel product documentation, all scoped to your organization.",
   "author": {
     "name": "Doppel",
     "url": "https://www.doppel.com"
   },
   "homepage": "https://vision.doppel.com/settings/developers",
+  "privacyPolicyUrl": "https://www.doppel.com/legal/privacy-policy",
   "repository": "https://github.com/doppelxyz/doppel-mcp-plugin",
   "license": "Apache-2.0",
   "keywords": [
