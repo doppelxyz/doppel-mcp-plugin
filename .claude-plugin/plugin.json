@@ -8,6 +8,7 @@
     "url": "https://www.doppel.com"
   },
   "homepage": "https://vision.doppel.com/settings/developers",
+  "privacyPolicyUrl": "https://www.doppel.com/legal/privacy-policy",
   "repository": "https://github.com/doppelxyz/doppel-mcp-plugin",
   "license": "Apache-2.0",
   "keywords": [
