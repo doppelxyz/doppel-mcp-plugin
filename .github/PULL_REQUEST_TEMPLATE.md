@@ -8,4 +8,4 @@ See [RELEASING.md](../RELEASING.md).
 
 - [ ] `version` bumped in `plugin.json` and `.claude-plugin/plugin.json` (or nothing user-visible changed)
 - [ ] After merge: signed tag `v<version>` pushed and GitHub Release published
-- [ ] Directories resubmitted if manifests, README, or skills changed (or N/A)
+- [ ] Directories resubmitted if manifests or README changed (or N/A)

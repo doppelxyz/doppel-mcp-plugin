@@ -20,7 +20,8 @@ and GitHub Actions is disabled, so a release is a signed tag plus a GitHub Relea
 
 1. Land the change on `main` through a pull request. If anything user-visible changed,
    bump `version` in both manifests in that same pull request (patch for docs or
-   wording, minor for new skills or manifest capabilities).
+   wording, minor for a change to what the plugin bundles or to manifest
+   capabilities).
 2. On an up-to-date `main`, create the signed tag at the approved commit and push it:
 
    ```sh
@@ -35,9 +36,9 @@ and GitHub Actions is disabled, so a release is a signed tag plus a GitHub Relea
    gh release create vX.Y.Z --title "vX.Y.Z" --notes "..."
    ```
 
-4. If the change affects what a directory reviewer would see (manifests, README,
-   skills), resubmit to the affected directories (Anthropic, Cursor) pointing at the new
-   tag. ChatGPT does not consume this repository.
+4. If the change affects what a directory reviewer would see (manifests, README),
+   resubmit to the affected directories (Anthropic, Cursor) pointing at the new tag.
+   ChatGPT does not consume this repository.
 
 ## Signing
 

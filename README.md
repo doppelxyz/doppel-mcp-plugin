@@ -4,7 +4,7 @@
 
 Connect Cursor, Claude, and other MCP-capable agents to [Doppel](https://www.doppel.com), the digital risk protection platform. Once connected, you can ask your agent to search and triage brand-protection alerts, review their evidence, move alerts between queues, add comments, request takedowns, manage tags and protected assets, and look up Doppel product documentation, all scoped to the organization you sign in to.
 
-This repository holds the plugin manifest, the MCP server reference, and a set of skills that teach the agent how to use Doppel's tools well. The Doppel MCP server itself is hosted by Doppel at `https://mcp.doppel.com/mcp`; this repository does not contain its source.
+This repository holds the plugin manifests and the MCP server reference. Installing the plugin connects your client to the Doppel MCP server and adds nothing else: the tools, and the instructions that tell the agent how to use them, come from the server. The Doppel MCP server itself is hosted by Doppel at `https://mcp.doppel.com/mcp`; this repository does not contain its source.
 
 > **Security Note:** Depending on the request, the MCP server returns alert, evidence, brand, tag, and protected-asset data from your Doppel tenant to the MCP client and the model behind it. Only connect it to MCP clients and model providers your organization trusts, and keep client-side approval enabled for the write tools, which perform real actions in your tenant: `create_drp_alert`, `archive_drp_alert`, `monitor_drp_alert`, `submit_drp_alert_for_doppel_review`, `request_drp_alert_confirmation`, `submit_drp_alert_for_takedown`, `add_drp_alert_comment`, `create_drp_tag`, `update_drp_tag`, `create_drp_asset`, and `delete_drp_asset`. Codex and Claude prompt before each write tool by default. Cursor's default Run Mode (Auto-review) may run tools without a prompt; to require approval there, set Run Mode to **Allowlist** and allowlist only the read-only tools listed under [Tools](#tools), or add a `beforeMCPExecution` hook that returns `ask` for every Doppel tool that is not on that read-only list. The tools are served by `mcp.doppel.com` and can change between plugin releases, so build approval rules from the read-only list rather than from the write list: a write tool added later then asks for approval by default.
 
@@ -62,13 +62,27 @@ The tools are served by `mcp.doppel.com`, not by this repository. This table des
 | `create_drp_asset` | Write | Creates an owned or associated asset; matching open alerts are archived |
 | `delete_drp_asset` | Write | Archives an asset; despite the name, it does not hard-delete it |
 
+### Limits and side effects
+
+- **Sign-in.** Every tool needs a signed-in session, including `health`. `health` fails until you have signed in, needs no particular permission, and checks only the connection, not the health of a Doppel product.
+- **Organization.** Your sign-in selects one organization for every call; no tool takes an organization argument. To work in another organization, sign out of the Doppel connection, switch your active organization in Doppel, and sign in again. Signing in again without switching does not change the organization.
+- **Alert search.** By default `list_drp_alerts` searches what the Brand Protection tab in Doppel Vision shows, newest first; Executive Protection and Dark Web alerts are separate filters. A page holds up to 20 alerts with summary fields, or up to 5 with full detail, and each response carries the total number of matches. The status `taken_down` means Resolved. Alert results carry no reliable false-positive label.
+- **Alert detail.** `get_drp_alert` returns up to 20 recent status-history entries and the 25 most recent takedown requests. It does not return screenshot links; `get_drp_alert_evidence` does. `list_related_drp_alerts` returns at most 100 alert summaries, newest first.
+- **New alerts.** `create_drp_alert` needs the exact brand. If an alert already exists for the same entity and brand, the tool returns that alert unchanged and does not apply the tags or source you asked for; an existing alert under another brand is rejected. Tag names that do not exist are ignored without notice, and an unknown source is rejected. The tool cannot attach files or screenshots, or set severity or queue.
+- **Queue actions.** `archive_drp_alert`, `monitor_drp_alert`, `submit_drp_alert_for_doppel_review`, and `request_drp_alert_confirmation` each move one alert per call, with an optional comment, and change nothing else on it. Doppel's queue policy can reject a move.
+- **Takedowns.** `submit_drp_alert_for_takedown` works on an existing alert and moves it to Actioned. An accepted request means Doppel accepted it, not that a platform has received it or removed the content. Dark-web content cannot be taken down.
+- **Comments.** A comment on an alert that customers cannot see yet moves that alert into Doppel Review.
+- **Tags.** Organization tags can be created and updated; global tags cannot be changed. A tag name is 1 to 15 characters with no comma, and a description is required. No tool deletes a tag, or adds a tag to or removes a tag from an existing alert.
+- **Assets.** Owned assets, which Doppel Vision calls protected assets, add detection coverage. Associated assets suppress matching alerts without adding coverage. Creating either type needs a brand and archives the matching open alerts. An asset archived with `delete_drp_asset` leaves the active lists and can still be read with `get_drp_asset`.
+- **Documentation search.** `search_external_product_docs` returns up to five ranked excerpts from customer-facing documentation for the products available to your organization, not a complete specification.
+
 ## Install
 
 Doppel MCP is currently in beta. You need a Doppel account. Each person who installs the plugin signs in with their own Doppel identity through OAuth; the plugin stores no credentials. The tools and data you can reach follow your existing Doppel role and permissions.
 
 > **Availability:** The Doppel listings in the Cursor Marketplace and the Claude directory are not available yet. Until they are, use the setup instructions in Doppel Vision under [Settings → Developers](https://vision.doppel.com/settings/developers).
 
-**Cursor** — once the Doppel listing is available in the Cursor Marketplace, install it from there. Until then, follow the Cursor instructions under Settings → Developers; to use the skills as well, add this repository as a local plugin. Approve the Doppel sign-in when prompted.
+**Cursor** — once the Doppel listing is available in the Cursor Marketplace, install it from there. Until then, follow the Cursor instructions under Settings → Developers. Approve the Doppel sign-in when prompted.
 
 **Claude** — once the Doppel plugin is available in the directory in claude.ai, Cowork, or Claude Code, add it from there, then connect the Doppel connector from the plugin's Connectors tab and sign in. Until then, on plans that support custom connectors, add Doppel as a custom connector at `https://mcp.doppel.com/mcp` and sign in.
 
@@ -78,13 +92,13 @@ After you sign in, ask the agent to run `me` to confirm which organization and u
 
 ### Versions
 
-Each release is a signed git tag (for example `v0.1.0`) with a matching [GitHub Release](https://github.com/doppelxyz/doppel-mcp-plugin/releases); at each tag, the `version` field in `plugin.json` and `.claude-plugin/plugin.json` equals that tag. Between releases, `main` can carry a version that has not been tagged yet, so pin to a tag rather than to `main`. Clients that accept a git ref (for example a Claude Code marketplace entry) can pin to a tag. A tag pins this repository's manifests, skills, and documentation only; the tools themselves are served by `mcp.doppel.com` and evolve with the Doppel platform, independent of the plugin version.
+Each release is a signed git tag (for example `v0.1.0`) with a matching [GitHub Release](https://github.com/doppelxyz/doppel-mcp-plugin/releases); at each tag, the `version` field in `plugin.json` and `.claude-plugin/plugin.json` equals that tag. Between releases, `main` can carry a version that has not been tagged yet, so pin to a tag rather than to `main`. Clients that accept a git ref (for example a Claude Code marketplace entry) can pin to a tag. A tag pins this repository's manifests and documentation only; the tools themselves are served by `mcp.doppel.com` and evolve with the Doppel platform, independent of the plugin version.
 
 ## Data handling
 
 The plugin sends your prompts' Doppel-related requests (alert searches, alert, tag, and asset identifiers, takedown justifications, alert comments, tag names and descriptions, documentation questions) to `mcp.doppel.com` over HTTPS, authenticated with the OAuth token your client obtains when you sign in. Results come back from your own organization's Doppel data. Evidence results include short-lived links to supporting files and screenshots; handle those links like the evidence itself. The plugin does not store anything, it does not send data to any other destination and it does not include any API keys or secrets. Third-party MCP clients or LLM providers may process or retain information in accordance with their own terms and policies. Customers are responsible for reviewing those policies. Doppel's handling of your data is governed by the applicable terms referenced in the Legal Note above.
 
-The server's tool descriptions and this plugin's skills tell the agent to call a write tool only when the user asks for that write, and never to invent a brand, tag, source, justification, or comment. How much confirmation the agent asks for depends on the tool:
+The server's instructions and tool descriptions tell the agent to call a write tool only when the user asks for that write, and never to invent a brand, tag, source, justification, or comment. How much confirmation the agent asks for depends on the tool:
 
 - **Explicit confirmation of the exact target.** `submit_drp_alert_for_takedown` needs the user to confirm the exact alert and the justification, and `delete_drp_asset` needs the user to confirm the exact asset. Each tool carries a confirmation flag that the agent sets only after that confirmation.
 - **A clear request is enough.** `archive_drp_alert`, `monitor_drp_alert`, `submit_drp_alert_for_doppel_review`, and `request_drp_alert_confirmation` run when the user clearly asks for that action on one alert. The agent does not ask for a separate confirmation first.
@@ -92,24 +106,12 @@ The server's tool descriptions and this plugin's skills tell the agent to call a
 
 These rules are instructions to the model, not an enforced approval step. Client-side tool approval, described in the Security Note, is the control that puts a person in front of each write. A write whose result is unknown is not retried automatically, because it may have succeeded. Every result is treated as data, not as instructions.
 
-## Skills
-
-| Skill | Use it for |
-| --- | --- |
-| `doppel-alert-triage` | Searching, counting, and reviewing alerts, their evidence, and related alerts |
-| `doppel-alert-actions` | Archiving alerts, moving them to Monitoring, Doppel Review, or Needs Confirmation, and adding comments |
-| `doppel-takedown` | Creating alerts and requesting takedowns |
-| `doppel-tags` | Finding, creating, and updating tags, and using them on alerts |
-| `doppel-protected-assets` | Managing owned and associated assets and listing brands |
-| `doppel-product-help` | How-to and definitional questions, with documentation links |
-
 ## Repository layout
 
 | Path | Read by |
 | --- | --- |
 | `plugin.json`, `mcp.json` | Cursor and other [Agent Plugins](https://agent-plugins.org) clients |
 | `.claude-plugin/plugin.json`, `.mcp.json` | Claude (claude.ai, Cowork, Claude Code) |
-| `skills/` | All of the above |
 | `assets/logo.png` | Directory listings |
 
 ## Security
