@@ -1,11 +1,15 @@
 # Every change requires review from a code owner (enforced by the main branch ruleset).
-# Core FDE owns the plugin; Core owns the Doppel MCP server it points at.
-*                       @doppelxyz/core-fde @doppelxyz/core
+# Core FDE owns the plugin; Core owns the Doppel MCP server it points at. Security is a
+# code owner of every path as well. An approval from a member of any one of the three
+# teams satisfies the requirement.
+*                       @doppelxyz/core-fde @doppelxyz/core @doppelxyz/security
 
-# The MCP endpoint and manifests are security-relevant.
-/mcp.json               @doppelxyz/core-fde @doppelxyz/core
-/.mcp.json              @doppelxyz/core-fde @doppelxyz/core
-/plugin.json            @doppelxyz/core-fde @doppelxyz/core
-/.claude-plugin/        @doppelxyz/core-fde @doppelxyz/core
-/SECURITY.md            @doppelxyz/core-fde @doppelxyz/security
-/.github/               @doppelxyz/core-fde @doppelxyz/security
+# The MCP endpoint, the manifests, the security policy, and the repository
+# configuration are security-relevant. They are listed by path so that their owners
+# stay explicit if the default above changes.
+/mcp.json               @doppelxyz/core-fde @doppelxyz/core @doppelxyz/security
+/.mcp.json              @doppelxyz/core-fde @doppelxyz/core @doppelxyz/security
+/plugin.json            @doppelxyz/core-fde @doppelxyz/core @doppelxyz/security
+/.claude-plugin/        @doppelxyz/core-fde @doppelxyz/core @doppelxyz/security
+/SECURITY.md            @doppelxyz/core-fde @doppelxyz/core @doppelxyz/security
+/.github/               @doppelxyz/core-fde @doppelxyz/core @doppelxyz/security
