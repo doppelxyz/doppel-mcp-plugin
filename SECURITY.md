@@ -6,7 +6,7 @@ Please report security issues privately to **security@doppel.com**. Do not open 
 
 Include what you found, how to reproduce it, and the impact you believe it has. We will acknowledge your report, keep you informed as we investigate, and credit you if you would like once a fix is released.
 
-Once this repository is public, you can also use GitHub's private vulnerability reporting from the **Security** tab.
+You can also use GitHub's private vulnerability reporting from the **Security** tab of this repository.
 
 ## Scope
 

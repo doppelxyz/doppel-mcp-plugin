@@ -50,9 +50,11 @@ ask which type rather than querying both.
 
 ## Common workflow: "customers say example.com is ours"
 
-Search alerts on the entity with `doppel-alert-triage`, confirm with the user,
-archive or resolve as appropriate, then create an owned or associated asset
-for `example.com` so Doppel stops alerting on it.
+Search alerts on the entity with `doppel-alert-triage` and show the user what
+matches. Confirm the asset type and brand, then create an owned or associated
+asset for `example.com` so Doppel stops alerting on it; creating the asset
+archives the matching open alerts. If the user also asks to archive specific
+alerts that remain, use `doppel-alert-actions`.
 
 ## Safety
 

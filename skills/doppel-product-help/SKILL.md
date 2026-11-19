@@ -28,6 +28,8 @@ results are limited to the connection's products.
 - The user wants their own alerts, assets, or brands. Use the data tools in
   the other Doppel skills.
 - The user wants a takedown or alert created. Use `doppel-takedown`.
+- The user wants to change an alert's queue, comment on it, or manage tags.
+  Use `doppel-alert-actions` or `doppel-tags`.
 
 ## How to answer
 
@@ -44,8 +46,11 @@ results are limited to the connection's products.
 
 ## Checking the connection
 
-`health` confirms the Doppel server is reachable and needs no sign-in. `me`
-shows which user and organization the session is signed in as and which
-scopes the session holds. If the user sees unexpected or missing data,
-suggest they check `me`, sign out of the Doppel connector, confirm their
-organization in Doppel Vision, and sign in again.
+`health` confirms that the signed-in connection to the Doppel server is
+working. It needs a signed-in session, so it fails until the user has signed
+in, but it needs no particular permission. Use it only to diagnose the
+connection, not to judge whether a Doppel product is healthy. `me` shows
+which user and organization the session is signed in as and which scopes the
+session holds. If the user sees unexpected or missing data, suggest they
+check `me`, sign out of the Doppel connector, confirm their organization in
+Doppel Vision, and sign in again.
